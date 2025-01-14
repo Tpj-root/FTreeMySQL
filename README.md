@@ -154,6 +154,10 @@ MariaDB [family_tree]> select * from people;
 
 
 
+http://localhost:3000/api/sab?key=iamsab
+
+
+
 
 
 
