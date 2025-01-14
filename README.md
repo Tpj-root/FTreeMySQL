@@ -1,6 +1,22 @@
 # FTreeMySQL
 
 
+![Help1](sql_help1.png)
+
+
+sudo mysql
+use mysql;
+CREATE USER 'phpmyadmin'@'localhost' IDENTIFIED BY '123';
+SET PASSWORD FOR 'phpmyadmin'@'localhost' = PASSWORD('123');
+GRANT ALL PRIVILEGES ON *.* TO 'phpmyadmin'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+exit
+
+
+![Help2](sql_help2.png)
+
+
+
 
 ** Web page**
 https://github.com/Tpj-root/FFTree
