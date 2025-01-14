@@ -9,16 +9,17 @@
   <link rel="stylesheet" href="https://unpkg.com/family-chart@0.2.1/dist/styles/family-chart.css">
 </head>
 <body>
-  <div style="text-align:center; margin: 20px 0;">
-    <input id="inputField" type="text" placeholder="Enter input value" style="padding: 5px; width: 200px;">
-    <input id="keyField" type="text" placeholder="Enter key value" style="padding: 5px; width: 200px;">
-    <button id="fetchButton" style="padding: 5px 10px;">Fetch</button>
+  <div style="text-align: center; margin: 20px;">
+    <input id="inputField" type="text" placeholder="Input" style="padding: 5px; margin-right: 10px;">
+    <input id="keyField" type="text" placeholder="Key" style="padding: 5px; margin-right: 10px;">
+    <button id="fetchButton" style="padding: 5px;">Fetch Data</button>
   </div>
   <div id="FamilyChart" class="f3" style="width:100%;height:900px;margin:auto;background-color:rgb(33,33,33);color:#fff;"></div>
   <script type="module">
     const fetchButton = document.getElementById('fetchButton');
     const inputField = document.getElementById('inputField');
     const keyField = document.getElementById('keyField');
+    let f3Chart; // Define a global chart variable
 
     fetchButton.addEventListener('click', () => {
       const input = inputField.value.trim();
@@ -42,7 +43,13 @@
           return response.json();
         })
         .then(data => {
-          create(data);
+          if (f3Chart) {
+            // If the chart already exists, update it
+            f3Chart.updateTree({ data });
+          } else {
+            // Create the chart if it doesn't exist
+            create(data);
+          }
         })
         .catch(error => {
           console.error('Error fetching data:', error);
@@ -50,7 +57,7 @@
     }
 
     function create(data) {
-      const f3Chart = f3.createChart('#FamilyChart', data)
+      f3Chart = f3.createChart('#FamilyChart', data)
         .setTransitionTime(1000)
         .setCardXSpacing(250)
         .setCardYSpacing(150)
