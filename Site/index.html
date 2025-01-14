@@ -9,70 +9,45 @@
   <link rel="stylesheet" href="https://unpkg.com/family-chart@0.2.1/dist/styles/family-chart.css">
 </head>
 <body>
+  <div style="text-align:center; margin: 20px 0;">
+    <input id="inputField" type="text" placeholder="Enter input value" style="padding: 5px; width: 200px;">
+    <input id="keyField" type="text" placeholder="Enter key value" style="padding: 5px; width: 200px;">
+    <button id="fetchButton" style="padding: 5px 10px;">Fetch</button>
+  </div>
   <div id="FamilyChart" class="f3" style="width:100%;height:900px;margin:auto;background-color:rgb(33,33,33);color:#fff;"></div>
   <script type="module">
-    // Fetch data from the API endpoint and render the chart
-    fetch('http://localhost:3000/api/sab?key=iamsab')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        create(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    const fetchButton = document.getElementById('fetchButton');
+    const inputField = document.getElementById('inputField');
+    const keyField = document.getElementById('keyField');
 
-    function create(data) {
-      const f3Chart = f3.createChart('#FamilyChart', data)
-        .setTransitionTime(1000)
-        .setCardXSpacing(250)
-        .setCardYSpacing(150)
-        .setOrientationVertical()
-        .setSingleParentEmptyCard(true, { label: 'ADD' });
+    fetchButton.addEventListener('click', () => {
+      const input = inputField.value.trim();
+      const key = keyField.value.trim();
 
-      const f3Card = f3Chart.setCard(f3.CardHtml)
-        .setCardDisplay([["first name", "last name"], ["birthday"]])
-        .setCardDim({})
-        .setMiniTree(true)
-        .setStyle('imageRect')
-        .setOnHoverPathToMain();
+      if (!input || !key) {
+        alert('Please fill both input and key fields.');
+        return;
+      }
 
-      f3Chart.updateTree({ initial: true });
+      const url = `http://localhost:3000/api/${input}?key=${key}`;
+      fetchData(url);
+    });
+
+    function fetchData(url) {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          create(data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
     }
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>my-family-chart</title>
-  <script src="https://unpkg.com/d3@6"></script>
-  <script type="module" src="https://unpkg.com/family-chart@0.2.1"></script>
-  <link rel="stylesheet" href="https://unpkg.com/family-chart@0.2.1/dist/styles/family-chart.css">
-</head>
-<body>
-  <div id="FamilyChart" class="f3" style="width:100%;height:900px;margin:auto;background-color:rgb(33,33,33);color:#fff;"></div>
-  <script type="module">
-    // Fetch data from the API endpoint and render the chart
-    fetch('http://localhost:3000/api/sab?key=iamsab')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        create(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
 
     function create(data) {
       const f3Chart = f3.createChart('#FamilyChart', data)
