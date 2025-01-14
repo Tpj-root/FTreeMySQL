@@ -62,14 +62,38 @@ app.get('/api/people', (req, res) => {
 
 
 // Define the new API endpoint for family_members
+// Define the new API endpoint for family members
 app.get('/api/sab', (req, res) => {
-  const query = 'SELECT * FROM people'; // Your query for family_members table
+  const query = `
+    SELECT JSON_ARRAYAGG(
+      JSON_OBJECT(
+        'id', CAST(p.id AS CHAR),
+        'rels', JSON_OBJECT(
+          'mother', IFNULL((SELECT r.related_person_id FROM relationships r WHERE r.person_id = p.id AND r.relation_type = 'mother' LIMIT 1), ''),
+          'father', IFNULL((SELECT r.related_person_id FROM relationships r WHERE r.person_id = p.id AND r.relation_type = 'father' LIMIT 1), ''),
+          'children', IFNULL((SELECT JSON_ARRAYAGG(CAST(r.related_person_id AS CHAR)) FROM relationships r WHERE r.person_id = p.id AND r.relation_type = 'children'), JSON_ARRAY()),
+          'spouses', IFNULL((SELECT JSON_ARRAYAGG(CAST(r.related_person_id AS CHAR)) FROM relationships r WHERE r.person_id = p.id AND r.relation_type = 'spouses'), JSON_ARRAY())
+        ),
+        'data', JSON_OBJECT(
+          'first name', IFNULL(p.first_name, ''),
+          'last name', IFNULL(p.last_name, ''),
+          'birthday', IFNULL(p.birthday, ''),
+          'avatar', IFNULL(p.avatar, ''),
+          'gender', IFNULL(p.gender, '')
+        )
+      )
+    ) AS result
+    FROM people p;
+  `;
+
   connection.query(query, (err, results) => {
     if (err) {
       console.error('Query error:', err.stack);
       return res.status(500).send('Error fetching family members');
     }
-    res.json(results); // Send the query results as JSON
+
+    const jsonResponse = results[0]?.result ? JSON.parse(results[0].result) : [];
+    res.json(jsonResponse);
   });
 });
 
