@@ -1,0 +1,58 @@
+[
+    {
+        "id": "0",
+        "rels": {
+            "mother": "2",
+            "father": "1",
+            "children": [],
+            "spouses": []
+        },
+        "data": {
+            "first name": "SAB",
+            "last name": "",
+            "birthday": "",
+            "avatar": "",
+            "gender": "M"
+        }
+    },
+    {
+        "id": "1",
+        "rels": {
+            "mother": "",
+            "father": "",
+            "children": [
+                "0"
+            ],
+            "spouses": [
+                "2"
+            ]
+        },
+        "data": {
+            "first name": "BASKARAN",
+            "last name": "",
+            "birthday": "",
+            "avatar": "",
+            "gender": "M"
+        }
+    },
+    {
+        "id": "2",
+        "rels": {
+            "mother": "",
+            "father": "",
+            "children": [
+                "0"
+            ],
+            "spouses": [
+                "1"
+            ]
+        },
+        "data": {
+            "first name": "SHANTHI",
+            "last name": "",
+            "birthday": "",
+            "avatar": "",
+            "gender": "F"
+        }
+    }
+]
