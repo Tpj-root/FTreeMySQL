@@ -66,6 +66,21 @@ INSERT INTO people (id, first_name, last_name, birthday, avatar, gender) VALUES
 ```
 
 
+```
+INSERT INTO relationships (person_id, relation_type, related_person_id) VALUES
+(0, 'mother', 2),
+(0, 'father', 1),
+(2, 'children', 0),
+(2, 'spouses', 1),
+(1, 'children', 0),
+(1, 'spouses', 2);
+```
+
+
+
+
+
+
 
 
 # backup
