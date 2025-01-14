@@ -1,7 +1,7 @@
 # FTreeMySQL
 
 
-![Help1](sql_help1.png)
+![Help1](img/sql_help1.png)
 
 
 sudo mysql
@@ -13,7 +13,7 @@ FLUSH PRIVILEGES;
 exit
 
 
-![Help2](sql_help2.png)
+![Help2](img/sql_help2.png)
 
 
 
